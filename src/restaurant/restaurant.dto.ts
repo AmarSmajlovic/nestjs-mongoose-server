@@ -1,5 +1,4 @@
 export class CreateRestaurantDto {
-  readonly _id: number;
   readonly address: AddressDto;
   readonly borough: string;
   readonly cuisine: string;
