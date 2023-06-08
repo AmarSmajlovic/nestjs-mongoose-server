@@ -6,10 +6,6 @@ import { Restaurant, RestaurantSchema } from './restaurant.schema';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://Cluster08084:QxlQPbgHAzo0a2tG@cluster0.ze49hhq.mongodb.net/',
-      { dbName: 'sample_restaurants' },
-    ),
     MongooseModule.forFeature([
       { name: Restaurant.name, schema: RestaurantSchema },
     ]),

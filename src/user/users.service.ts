@@ -9,6 +9,15 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
+  async findOne(username: string): Promise<User | null> {
+    try {
+      const user = await this.userModel.findOne({ username }).exec();
+      return user;
+    } catch (error) {
+      throw new Error('User cannot be found');
+    }
+  }
+
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
