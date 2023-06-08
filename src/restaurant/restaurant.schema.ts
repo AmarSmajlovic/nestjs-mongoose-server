@@ -20,9 +20,6 @@ export class Address {
 
 @Schema()
 export class Restaurant {
-  @Prop()
-  _id: number;
-
   @Prop({ type: Address })
   address: Address;
 
