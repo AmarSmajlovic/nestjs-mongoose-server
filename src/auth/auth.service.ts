@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/users.service';
 import { isPasswordMatch } from 'src/utils';
@@ -21,10 +21,23 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any): Promise<any> {
+  async login(@Req() req): Promise<any> {
+    const user = req.user._doc;
     const payload = { username: user.username, sub: user._id };
+    const accesToken = this.jwtService.sign(payload);
     return {
-      access_token: this.jwtService.sign(payload),
+      meessage: 'User Info from Database',
+      user: { ...req.user._doc, accesToken },
+    };
+  }
+
+  googleLogin(req) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+    return {
+      message: 'User Info from Google',
+      user: req.user,
     };
   }
 }
