@@ -41,12 +41,25 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard('google'))
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async googleAuth(@Req() req) {}
+  async googleAuth(@Req() req) {
+    return req.user;
+  }
 
   @Get('auth/google/callback')
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req) {
     return this.authService.googleLogin(req);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuth(@Req() req) {
+    return req.user;
+  }
+
+  @Get('auth/facebook/callback')
+  @UseGuards(AuthGuard('facebook'))
+  facebookAuthRedirect(@Req() req) {
+    return this.authService.facebookLogin(req);
   }
 }

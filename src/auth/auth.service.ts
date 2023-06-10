@@ -40,4 +40,14 @@ export class AuthService {
       user: req.user,
     };
   }
+
+  facebookLogin(req) {
+    if (!req.user) {
+      return 'No user from facebook';
+    }
+    return {
+      message: 'User Info from facebook',
+      user: req.user,
+    };
+  }
 }
