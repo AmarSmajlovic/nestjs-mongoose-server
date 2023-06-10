@@ -5,6 +5,8 @@ import {
   HttpStatus,
   UseGuards,
   Request,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from 'src/user/user.dto';
@@ -35,5 +37,16 @@ export class AuthController {
     } catch (error) {
       return error;
     }
+  }
+
+  @Get()
+  @UseGuards(AuthGuard('google'))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async googleAuth(@Req() req) {}
+
+  @Get('auth/google/callback')
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
   }
 }
