@@ -10,8 +10,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any | null> {
-    const user = await this.usersService.findOne(email);
+  async validateUser(username: string, password: string): Promise<any | null> {
+    const user = await this.usersService.findUserByUsername(username);
 
     if (user && (await isPasswordMatch(password, user.password))) {
       const { password: _, ...result } = user; // Exclude the password from the returned result
@@ -31,23 +31,41 @@ export class AuthService {
     };
   }
 
-  googleLogin(req) {
+  async googleLogin(req) {
     if (!req.user) {
       return 'No user from google';
+    } else {
+      const user = await this.usersService.findUserByEmail(req.user.email);
+      if (user) {
+        return {
+          message: 'User Info from Google',
+          user: req.user,
+        };
+      }
+      await this.usersService.store(req.user);
+      return {
+        message: 'Stored user',
+        user: req.user,
+      };
     }
-    return {
-      message: 'User Info from Google',
-      user: req.user,
-    };
   }
 
-  facebookLogin(req) {
+  async facebookLogin(req) {
     if (!req.user) {
       return 'No user from facebook';
+    } else {
+      const user = await this.usersService.findUserByEmail(req.user.email);
+      if (user) {
+        return {
+          message: 'User Info from Facebook',
+          user: req.user,
+        };
+      }
+      await this.usersService.store(req.user);
+      return {
+        message: 'Stored user',
+        user: req.user,
+      };
     }
-    return {
-      message: 'User Info from facebook',
-      user: req.user,
-    };
   }
 }

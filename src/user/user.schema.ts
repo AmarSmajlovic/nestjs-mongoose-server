@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
@@ -15,6 +16,7 @@ export class User {
   email: string;
 
   @Prop()
+  @Optional()
   password: string;
 }
 

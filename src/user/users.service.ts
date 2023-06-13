@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, StoreUserDto } from './user.dto';
 import { User } from './user.schema';
 import * as bcrypt from 'bcrypt';
 
@@ -9,9 +9,18 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async findOne(username: string): Promise<User | null> {
+  async findUserByUsername(username: string): Promise<User | null> {
     try {
       const user = await this.userModel.findOne({ username }).exec();
+      return user;
+    } catch (error) {
+      throw new Error('User cannot be found');
+    }
+  }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    try {
+      const user = await this.userModel.findOne({ email }).exec();
       return user;
     } catch (error) {
       throw new Error('User cannot be found');
@@ -29,5 +38,10 @@ export class UserService {
 
     const createdUser = await this.userModel.create(modifiedDto);
     return createdUser;
+  }
+
+  async store(storeUserDto: StoreUserDto): Promise<User> {
+    const storedUser = await this.userModel.create(storeUserDto);
+    return storedUser;
   }
 }
