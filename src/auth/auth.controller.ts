@@ -9,7 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateUserDto, StoreUserDto } from 'src/user/user.dto';
+import { CreateUserDto } from 'src/user/user.dto';
 import { UserService } from 'src/user/users.service';
 import { AuthService } from './auth.service';
 
@@ -61,5 +61,13 @@ export class AuthController {
   @UseGuards(AuthGuard('facebook'))
   facebookAuthRedirect(@Req() req) {
     return this.authService.facebookLogin(req);
+  }
+
+  @Post('refresh')
+  refreshToken(@Req() req): {
+    accessToken: string;
+  } {
+    const refreshToken = req.cookies['refresh_token'];
+    return this.authService.refreshToken(refreshToken);
   }
 }
