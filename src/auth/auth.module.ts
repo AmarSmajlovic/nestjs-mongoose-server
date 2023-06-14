@@ -11,6 +11,7 @@ import { LocalStrategy } from 'src/strategies/local.strategy';
 import { GoogleStrategy } from 'src/strategies/google.strategy';
 import { FacebookStrategy } from 'src/strategies/facebook.strategy';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
+import { JwtAuthService } from './jwt.service';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy';
   providers: [
     UserService,
     AuthService,
+    JwtAuthService,
     LocalStrategy,
     GoogleStrategy,
     FacebookStrategy,
