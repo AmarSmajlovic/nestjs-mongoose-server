@@ -18,8 +18,8 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     });
   }
   async validate(
-    accessToken: string,
-    refreshToken: string,
+    _accessToken: string,
+    _refreshToken: string,
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
@@ -29,7 +29,6 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
       last_name: name.familyName,
       email: emails[0].value,
       picture: photos[0].value,
-      accessToken,
     };
 
     done(null, user);

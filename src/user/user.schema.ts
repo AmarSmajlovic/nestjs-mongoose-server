@@ -1,8 +1,11 @@
 import { Optional } from '@nestjs/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Schema()
 export class User {
+  _id: mongoose.Types.ObjectId;
+
   @Prop()
   first_name: string;
 
